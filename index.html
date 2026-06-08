@@ -29,7 +29,7 @@
           <div class="dial-wrap" id="dial-wrap">
             <svg id="dial" class="dial" viewBox="0 0 600 600" role="img" aria-labelledby="dial-title dial-desc">
               <title id="dial-title">二十四節気と七十二候の日時計</title>
-              <desc id="dial-desc">外周に二十四節気、内側に七十二候を配置した円形の暦盤です。</desc>
+              <desc id="dial-desc">外周に二十四節気、中間に七十二候、内側に十二時辰を配置した円形の暦盤です。</desc>
               <defs>
                 <radialGradient id="brassFace" cx="50%" cy="42%" r="64%">
                   <stop offset="0%" stop-color="#f5e4b3">
@@ -45,6 +45,7 @@
               <circle cx="300" cy="300" r="210" class="dial-inner"></circle>
               <g id="term-segments"></g>
               <g id="micro-segments"></g>
+              <g id="hour-segments"></g>
               <g id="dial-labels"></g>
               <circle cx="300" cy="300" r="73" class="dial-core"></circle>
               <g id="hand" class="hand">
@@ -53,6 +54,7 @@
               </g>
             </svg>
             <div class="dial-center" aria-hidden="true">
+              <small id="center-time">--</small>
               <span id="center-term">--</span>
               <strong id="center-micro">--</strong>
             </div>
@@ -78,6 +80,12 @@
             <p class="label" data-i18n="currentMicro">現在の七十二候</p>
             <h2 id="micro-name">--</h2>
             <p id="micro-desc">--</p>
+          </div>
+          <div class="season-card hour-card">
+            <p class="label" data-i18n="zodiacHeading">十二時辰</p>
+            <h2 id="hour-name">--</h2>
+            <p id="hour-desc">--</p>
+            <p class="hour-note" data-i18n="zodiacNote">このアプリでは、十二時辰を現代の固定時刻に対応させて表示しています。歴史的な不定時法を再現したものではありません。</p>
           </div>
           <div class="next-grid">
             <div>

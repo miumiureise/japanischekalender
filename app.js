@@ -11,6 +11,9 @@ const i18n = {
     currentDateTime: "現在日時",
     currentTerm: "現在の二十四節気",
     currentMicro: "現在の七十二候",
+    zodiacHeading: "十二時辰",
+    zodiacLead: "十二支による伝統的な時刻表示",
+    zodiacNote: "このアプリでは、十二時辰を現代の固定時刻に対応させて表示しています。歴史的な不定時法を再現したものではありません。",
     nextChange: "次の切り替え",
     remaining: "残り時間",
     selected: "選択中",
@@ -29,6 +32,9 @@ const i18n = {
     currentDateTime: "Aktuelles Datum",
     currentTerm: "Aktueller Sekki",
     currentMicro: "Aktueller Ko",
+    zodiacHeading: "Die zwölf Doppelstunden",
+    zodiacLead: "Traditionelle Zeitangabe mit den zwölf Tierzeichen",
+    zodiacNote: "Diese App ordnet die zwölf Doppelstunden festen modernen Uhrzeiten zu. Sie bildet das historische System der ungleichen Stunden nicht vollständig nach.",
     nextChange: "Nächster Wechsel",
     remaining: "Verbleibende Zeit",
     selected: "Auswahl",
@@ -40,6 +46,129 @@ const i18n = {
   }
 };
 
+const zodiacHours = [
+  {
+    id: "ne",
+    sign: "子",
+    nameJa: "子の刻",
+    nameDe: "Stunde der Ratte",
+    range: "23:00-00:59",
+    startHour: 23,
+    descriptionJa: "一日の境目にあたる時間帯。夜が深まり、新しい日へ静かに移る刻です。",
+    descriptionDe: "Die Doppelstunde der Ratte liegt an der Grenze des Tages, wenn die Nacht in einen neuen Tag uebergeht."
+  },
+  {
+    id: "ushi",
+    sign: "丑",
+    nameJa: "丑の刻",
+    nameDe: "Stunde des Ochsen",
+    range: "01:00-02:59",
+    startHour: 1,
+    descriptionJa: "夜の静けさがもっとも深い時間帯。大地が眠るような刻です。",
+    descriptionDe: "Die Doppelstunde des Ochsen ist eine tiefe Nachtzeit, ruhig und schwer."
+  },
+  {
+    id: "tora",
+    sign: "寅",
+    nameJa: "寅の刻",
+    nameDe: "Stunde des Tigers",
+    range: "03:00-04:59",
+    startHour: 3,
+    descriptionJa: "夜明け前の時間帯。暗さの奥で朝の気配が動き始めます。",
+    descriptionDe: "Die Doppelstunde des Tigers liegt vor der Daemmerung, wenn der Morgen noch verborgen ist."
+  },
+  {
+    id: "u",
+    sign: "卯",
+    nameJa: "卯の刻",
+    nameDe: "Stunde des Hasen",
+    range: "05:00-06:59",
+    startHour: 5,
+    descriptionJa: "朝が開く時間帯。光が戻り、一日の動きが始まります。",
+    descriptionDe: "Die Doppelstunde des Hasen oeffnet den Morgen und bringt das erste Licht."
+  },
+  {
+    id: "tatsu",
+    sign: "辰",
+    nameJa: "辰の刻",
+    nameDe: "Stunde des Drachen",
+    range: "07:00-08:59",
+    startHour: 7,
+    descriptionJa: "朝の勢いが増す時間帯。仕事や暮らしが本格的に動き出します。",
+    descriptionDe: "Die Doppelstunde des Drachen gehoert zum wachsenden Morgen."
+  },
+  {
+    id: "mi",
+    sign: "巳",
+    nameJa: "巳の刻",
+    nameDe: "Stunde der Schlange",
+    range: "09:00-10:59",
+    startHour: 9,
+    descriptionJa: "日が高くなり始める時間帯。午前の明るさが整う刻です。",
+    descriptionDe: "Die Doppelstunde der Schlange liegt im hellen Vormittag."
+  },
+  {
+    id: "uma",
+    sign: "午",
+    nameJa: "午の刻",
+    nameDe: "Stunde des Pferdes",
+    range: "11:00-12:59",
+    startHour: 11,
+    descriptionJa: "正午を含む時間帯。「正午」という言葉は午の刻に由来します。",
+    descriptionDe: "Die Doppelstunde des Pferdes umfasst den Mittag; der japanische Begriff fuer Mittag leitet sich davon ab."
+  },
+  {
+    id: "hitsuji",
+    sign: "未",
+    nameJa: "未の刻",
+    nameDe: "Stunde der Ziege",
+    range: "13:00-14:59",
+    startHour: 13,
+    descriptionJa: "午後の熱や明るさが残る時間帯。昼の余韻が続きます。",
+    descriptionDe: "Die Doppelstunde der Ziege gehoert zum fruehen Nachmittag."
+  },
+  {
+    id: "saru",
+    sign: "申",
+    nameJa: "申の刻",
+    nameDe: "Stunde des Affen",
+    range: "15:00-16:59",
+    startHour: 15,
+    descriptionJa: "日が傾き始める時間帯。夕方へ向かう気配が生まれます。",
+    descriptionDe: "Die Doppelstunde des Affen fuehrt in den spaeten Nachmittag."
+  },
+  {
+    id: "tori",
+    sign: "酉",
+    nameJa: "酉の刻",
+    nameDe: "Stunde des Hahns",
+    range: "17:00-18:59",
+    startHour: 17,
+    descriptionJa: "夕暮れを迎える時間帯。家路や一日の区切りを思わせます。",
+    descriptionDe: "Die Doppelstunde des Hahns liegt am Abend, wenn der Tag sich schliesst."
+  },
+  {
+    id: "inu",
+    sign: "戌",
+    nameJa: "戌の刻",
+    nameDe: "Stunde des Hundes",
+    range: "19:00-20:59",
+    startHour: 19,
+    descriptionJa: "夜が落ち着き始める時間帯。灯りのそばで過ごす刻です。",
+    descriptionDe: "Die Doppelstunde des Hundes gehoert zum ruhigen Beginn der Nacht."
+  },
+  {
+    id: "i",
+    sign: "亥",
+    nameJa: "亥の刻",
+    nameDe: "Stunde des Schweins",
+    range: "21:00-22:59",
+    startHour: 21,
+    descriptionJa: "眠りへ向かう時間帯。一日を閉じ、静けさに戻る刻です。",
+    descriptionDe: "Die Doppelstunde des Schweins fuehrt in die Schlafenszeit."
+  }
+];
+
 let data = null;
 let lang = localStorage.getItem("seasonDialLang") || "ja";
 let viewedDate = new Date();
@@ -50,6 +179,7 @@ let dragAngle = null;
 const els = {
   termSegments: document.querySelector("#term-segments"),
   microSegments: document.querySelector("#micro-segments"),
+  hourSegments: document.querySelector("#hour-segments"),
   labels: document.querySelector("#dial-labels"),
   hand: document.querySelector("#hand"),
   dialWrap: document.querySelector("#dial-wrap"),
@@ -58,6 +188,9 @@ const els = {
   termDesc: document.querySelector("#term-desc"),
   microName: document.querySelector("#micro-name"),
   microDesc: document.querySelector("#micro-desc"),
+  hourName: document.querySelector("#hour-name"),
+  hourDesc: document.querySelector("#hour-desc"),
+  centerTime: document.querySelector("#center-time"),
   centerTerm: document.querySelector("#center-term"),
   centerMicro: document.querySelector("#center-micro"),
   nextChange: document.querySelector("#next-change"),
@@ -130,6 +263,7 @@ function goNow() {
 function drawDial() {
   els.termSegments.innerHTML = "";
   els.microSegments.innerHTML = "";
+  els.hourSegments.innerHTML = "";
   els.labels.innerHTML = "";
 
   const visibleTerms = data.solarTerms.filter((term) => term.display !== false);
@@ -160,6 +294,21 @@ function drawDial() {
     els.microSegments.appendChild(segment);
     if (index % 3 === 1) addLabel(micro.nameJa, start + 2.5, 177, "dial-label micro");
   });
+
+  zodiacHours.forEach((hour, index) => {
+    const start = index * 30;
+    const end = start + 30;
+    const segment = svgEl("path", {
+      d: ringPath(300, 300, 142, 86, start, end),
+      class: "hour-segment",
+      "data-id": hour.id
+    });
+    segment.addEventListener("click", () => selectItem("hour", hour));
+    els.hourSegments.appendChild(segment);
+    const label = addLabel(hour.sign, start + 15, 115, "dial-label hour");
+    label.setAttribute("data-id", hour.id);
+    label.addEventListener("click", () => selectItem("hour", hour));
+  });
 }
 
 function addLabel(text, angle, radius, className) {
@@ -167,6 +316,7 @@ function addLabel(text, angle, radius, className) {
   const label = svgEl("text", { x: pos.x, y: pos.y, class: className });
   label.textContent = text;
   els.labels.appendChild(label);
+  return label;
 }
 
 function update() {
@@ -179,12 +329,15 @@ function update() {
     return;
   }
 
-  const { term, micro, nextChange } = context;
+  const { term, micro, zodiacHour, nextChange } = context;
   els.currentDateTime.textContent = formatDateTime(viewedDate);
   els.termName.textContent = term.nameJa;
   els.termDesc.textContent = lang === "ja" ? term.descriptionJa : term.descriptionDe;
   els.microName.textContent = micro.nameJa;
   els.microDesc.textContent = lang === "ja" ? micro.descriptionJa : `${micro.nameJa}: ${micro.descriptionDe}`;
+  els.hourName.textContent = getZodiacHourTitle(zodiacHour);
+  els.hourDesc.textContent = getZodiacHourSummary(zodiacHour);
+  els.centerTime.textContent = formatClockTime(viewedDate);
   els.centerTerm.textContent = term.nameJa;
   els.centerMicro.textContent = micro.nameJa;
   els.nextChange.textContent = nextChange ? formatDateTime(parseJst(nextChange.start)) : " -- ";
@@ -192,19 +345,24 @@ function update() {
 
   highlight(".term-segment", term.id);
   highlight(".micro-segment", micro.id);
+  highlight(".hour-segment", zodiacHour.id);
+  highlight(".dial-label.hour", zodiacHour.id);
 
   const yearProgress = getYearProgress(viewedDate);
   els.hand.style.transform = `rotate(${yearProgress * 360}deg)`;
 
-  if (!selectedItem) selectItem("micro", micro, false);
+  if (!selectedItem) selectedItem = { type: "micro", item: micro };
+  renderSelectedItem();
 }
 
 function setEmptyState() {
-  ["currentDateTime", "termName", "termDesc", "microName", "microDesc", "centerTerm", "centerMicro", "nextChange", "remaining", "selectedTitle", "selectedBody"].forEach((key) => {
+  ["currentDateTime", "termName", "termDesc", "microName", "microDesc", "hourName", "hourDesc", "centerTime", "centerTerm", "centerMicro", "nextChange", "remaining", "selectedTitle", "selectedBody"].forEach((key) => {
     els[key].textContent = "--";
   });
   highlight(".term-segment", "");
   highlight(".micro-segment", "");
+  highlight(".hour-segment", "");
+  highlight(".dial-label.hour", "");
 }
 
 function getContext(date) {
@@ -213,6 +371,7 @@ function getContext(date) {
 
   const term = findCurrent(data.solarTerms, date);
   const micro = findCurrent(data.microSeasons, date);
+  const zodiacHour = getZodiacHour(date);
   if (!term || !micro) return { inRange: false };
 
   const nextTerm = findNext(data.solarTerms, date);
@@ -221,7 +380,22 @@ function getContext(date) {
     .filter(Boolean)
     .sort((a, b) => parseJst(a.start) - parseJst(b.start))[0];
 
-  return { inRange: true, term, micro, nextChange };
+  return { inRange: true, term, micro, zodiacHour, nextChange };
+}
+
+function getZodiacHour(date) {
+  const hourFormatter = new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Tokyo"
+  });
+  const hour = Number(hourFormatter.formatToParts(date).find((part) => part.type === "hour").value);
+  const normalizedHour = hour === 0 ? 24 : hour;
+  return zodiacHours.find((item) => {
+    const start = item.startHour === 23 ? 23 : item.startHour;
+    const end = item.startHour === 23 ? 25 : item.startHour + 2;
+    return normalizedHour >= start && normalizedHour < end;
+  }) || zodiacHours[0];
 }
 
 function findCurrent(items, date) {
@@ -238,13 +412,20 @@ function findNext(items, date) {
 
 function selectItem(type, item, refresh = true) {
   selectedItem = { type, item };
-  els.selectedTitle.textContent = item.nameJa;
-  if (type === "term") {
-    els.selectedBody.textContent = lang === "ja" ? item.descriptionJa : `${item.nameJa}: ${item.descriptionDe}`;
-  } else {
-    els.selectedBody.textContent = lang === "ja" ? item.descriptionJa : `${item.nameJa}: ${item.descriptionDe}`;
-  }
+  renderSelectedItem();
   if (refresh) update();
+}
+
+function renderSelectedItem() {
+  if (!selectedItem) return;
+  const { type, item } = selectedItem;
+  if (type === "hour") {
+    els.selectedTitle.textContent = getZodiacHourTitle(item);
+    els.selectedBody.textContent = `${formatZodiacRange(item.range)} / ${item.sign}\n${getZodiacHourDescription(item)}`;
+    return;
+  }
+  els.selectedTitle.textContent = item.nameJa;
+  els.selectedBody.textContent = lang === "ja" ? item.descriptionJa : `${item.nameJa}: ${item.descriptionDe}`;
 }
 
 function highlight(selector, id) {
@@ -253,7 +434,22 @@ function highlight(selector, id) {
   });
 }
 
+function getZodiacHourTitle(hour) {
+  return lang === "ja" ? hour.nameJa : `${hour.nameJa} / ${hour.nameDe}`;
+}
+
+function getZodiacHourSummary(hour) {
+  return lang === "ja"
+    ? `${i18n[lang].zodiacLead}。${formatZodiacRange(hour.range)}。${hour.descriptionJa}`
+    : `${i18n[lang].zodiacLead}. ${hour.nameDe}, ${formatZodiacRange(hour.range)}. ${hour.descriptionDe}`;
+}
+
+function getZodiacHourDescription(hour) {
+  return lang === "ja" ? hour.descriptionJa : `${hour.nameDe}. ${hour.descriptionDe}`;
+}
+
 function startDrag(event) {
+  if (!isPointerInsideDial(event)) return;
   manualMode = true;
   els.dialWrap.setPointerCapture(event.pointerId);
   dragAngle = pointerAngle(event);
@@ -277,6 +473,14 @@ function pointerAngle(event) {
   return (Math.atan2(y, x) * 180 / Math.PI + 450) % 360;
 }
 
+function isPointerInsideDial(event) {
+  const rect = els.dialWrap.getBoundingClientRect();
+  const x = event.clientX - rect.left - rect.width / 2;
+  const y = event.clientY - rect.top - rect.height / 2;
+  const distance = Math.sqrt(x * x + y * y);
+  return distance <= rect.width * 0.48;
+}
+
 function setDateFromAngle(angle) {
   const year = viewedDate.getFullYear();
   const start = new Date(`${year}-01-01T00:00:00${JST_OFFSET}`);
@@ -297,6 +501,19 @@ function formatDateTime(date) {
     timeStyle: "short",
     timeZone: "Asia/Tokyo"
   }).format(date);
+}
+
+function formatClockTime(date) {
+  return new Intl.DateTimeFormat(lang === "ja" ? "ja-JP" : "de-DE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Asia/Tokyo"
+  }).format(date);
+}
+
+function formatZodiacRange(range) {
+  return range.replace("-", lang === "ja" ? "〜" : "–");
 }
 
 function formatRemaining(ms) {
