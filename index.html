@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>二十四節気と七十二候の日時計</title>
+    <meta name="description" content="ブラウザだけで使える、二十四節気と七十二候の日時計風Webアプリ。">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="top-panel" aria-labelledby="app-title">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">暦盤</p>
+          <h1 id="app-title" data-i18n="title">二十四節気と七十二候の日時計</h1>
+          <p class="lead" data-i18n="lead">今の季節の名と、次の移ろいまでの時間を静かに眺めます。</p>
+        </div>
+        <div class="top-actions" aria-label="language and date controls">
+          <div class="segmented" role="group" aria-label="Language">
+            <button type="button" class="lang-button" data-lang="ja">日本語</button>
+            <button type="button" class="lang-button" data-lang="de">Deutsch</button>
+          </div>
+          <button type="button" class="action-button" id="return-now" data-i18n="returnNow">現在に戻る</button>
+        </div>
+      </section>
+
+      <section class="dashboard">
+        <section class="dial-panel" aria-label="sundial">
+          <div class="dial-wrap" id="dial-wrap">
+            <svg id="dial" class="dial" viewBox="0 0 600 600" role="img" aria-labelledby="dial-title dial-desc">
+              <title id="dial-title">二十四節気と七十二候の日時計</title>
+              <desc id="dial-desc">外周に二十四節気、内側に七十二候を配置した円形の暦盤です。</desc>
+              <defs>
+                <radialGradient id="brassFace" cx="50%" cy="42%" r="64%">
+                  <stop offset="0%" stop-color="#f5e4b3">
+                  <stop offset="56%" stop-color="#c59a4a">
+                  <stop offset="100%" stop-color="#725022">
+                </radialGradient>
+                <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="12" stdDeviation="11" flood-color="#1f1711" flood-opacity="0.35">
+                </filter>
+              </defs>
+              <circle cx="300" cy="300" r="282" class="dial-shadow"></circle>
+              <circle cx="300" cy="300" r="270" class="dial-face"></circle>
+              <circle cx="300" cy="300" r="210" class="dial-inner"></circle>
+              <g id="term-segments"></g>
+              <g id="micro-segments"></g>
+              <g id="dial-labels"></g>
+              <circle cx="300" cy="300" r="73" class="dial-core"></circle>
+              <g id="hand" class="hand">
+                <line x1="300" y1="300" x2="300" y2="92" class="hand-line"></line>
+                <circle cx="300" cy="300" r="14" class="hand-pin"></circle>
+              </g>
+            </svg>
+            <div class="dial-center" aria-hidden="true">
+              <span id="center-term">--</span>
+              <strong id="center-micro">--</strong>
+            </div>
+          </div>
+          <div class="date-controls" aria-label="date controls">
+            <button type="button" class="icon-button" id="prev-day" aria-label="前日">‹</button>
+            <button type="button" class="action-button" id="today" data-i18n="today">今日</button>
+            <button type="button" class="icon-button" id="next-day" aria-label="翌日">›</button>
+          </div>
+        </section>
+
+        <aside class="info-panel" aria-live="polite">
+          <div class="status-card">
+            <p class="label" data-i18n="currentDateTime">現在日時</p>
+            <strong id="current-datetime">--</strong>
+          </div>
+          <div class="season-card">
+            <p class="label" data-i18n="currentTerm">現在の二十四節気</p>
+            <h2 id="term-name">--</h2>
+            <p id="term-desc">--</p>
+          </div>
+          <div class="season-card accent">
+            <p class="label" data-i18n="currentMicro">現在の七十二候</p>
+            <h2 id="micro-name">--</h2>
+            <p id="micro-desc">--</p>
+          </div>
+          <div class="next-grid">
+            <div>
+              <p class="label" data-i18n="nextChange">次の切り替え</p>
+              <strong id="next-change">--</strong>
+            </div>
+            <div>
+              <p class="label" data-i18n="remaining">残り時間</p>
+              <strong id="remaining">--</strong>
+            </div>
+          </div>
+          <div class="detail-card" id="detail-card">
+            <p class="label" data-i18n="selected">選択中</p>
+            <h3 id="selected-title">--</h3>
+            <p id="selected-body">--</p>
+          </div>
+          <p class="range-note" id="range-note"></p>
+        </aside>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,369 @@
+:root {
+  --ink: #211b18;
+  --muted: #685b50;
+  --paper: #efe6d2;
+  --paper-deep: #d7c5a5;
+  --brass: #b58a3a;
+  --brass-light: #e3c16d;
+  --sumi: #171716;
+  --red: #8d342a;
+  --green: #526f4b;
+  --blue: #456f80;
+  --shadow: 0 22px 50px rgba(35, 26, 17, 0.2);
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #e8dcc6;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--ink);
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", Georgia, serif;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.35), transparent 26%, rgba(111, 81, 43, 0.08) 70%),
+    repeating-linear-gradient(96deg, rgba(105, 88, 61, 0.045) 0 2px, transparent 2px 9px),
+    var(--paper);
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(1180px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 24px 0 30px;
+}
+
+.top-panel {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 0 18px;
+}
+
+.eyebrow,
+.label {
+  margin: 0 0 7px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3.2vw, 3.15rem);
+  line-height: 1.12;
+}
+
+.lead {
+  margin: 10px 0 0;
+  max-width: 680px;
+  color: #4f443d;
+  line-height: 1.8;
+}
+
+.top-actions,
+.date-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.segmented {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  border: 1px solid rgba(33, 27, 24, 0.18);
+  background: rgba(255, 252, 242, 0.64);
+}
+
+.lang-button,
+.action-button,
+.icon-button {
+  min-height: 42px;
+  border: 1px solid rgba(33, 27, 24, 0.18);
+  color: var(--ink);
+  background: rgba(255, 252, 242, 0.78);
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.lang-button {
+  min-width: 92px;
+  border: 0;
+  padding: 8px 12px;
+}
+
+.lang-button.active,
+.action-button.primary {
+  color: #fff8e7;
+  background: var(--sumi);
+}
+
+.action-button {
+  padding: 9px 15px;
+}
+
+.icon-button {
+  width: 46px;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.lang-button:hover,
+.action-button:hover,
+.icon-button:hover {
+  transform: translateY(-1px);
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(330px, 0.85fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.dial-panel,
+.info-panel {
+  border: 1px solid rgba(33, 27, 24, 0.12);
+  background: rgba(247, 239, 220, 0.74);
+  box-shadow: var(--shadow);
+}
+
+.dial-panel {
+  padding: clamp(12px, 2.4vw, 24px);
+}
+
+.dial-wrap {
+  position: relative;
+  width: min(100%, 680px);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  touch-action: none;
+  user-select: none;
+}
+
+.dial {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 20px 28px rgba(38, 27, 16, 0.24));
+}
+
+.dial-shadow {
+  fill: #372619;
+  opacity: 0.22;
+}
+
+.dial-face {
+  fill: url(#brassFace);
+  stroke: #46311a;
+  stroke-width: 3;
+}
+
+.dial-inner {
+  fill: rgba(237, 219, 171, 0.5);
+  stroke: rgba(43, 31, 19, 0.45);
+  stroke-width: 1.4;
+}
+
+.term-segment,
+.micro-segment {
+  cursor: pointer;
+  stroke: rgba(41, 31, 24, 0.42);
+}
+
+.term-segment {
+  fill: rgba(255, 243, 202, 0.2);
+}
+
+.micro-segment {
+  fill: rgba(79, 99, 71, 0.08);
+}
+
+.term-segment.active {
+  fill: rgba(141, 52, 42, 0.72);
+}
+
+.micro-segment.active {
+  fill: rgba(69, 111, 128, 0.78);
+}
+
+.dial-label {
+  fill: #241b16;
+  font-size: 12px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.dial-label.micro {
+  font-size: 8.5px;
+  fill: rgba(35, 27, 21, 0.72);
+}
+
+.dial-core {
+  fill: rgba(32, 26, 21, 0.92);
+  stroke: rgba(240, 213, 145, 0.82);
+  stroke-width: 2;
+}
+
+.hand {
+  transform-origin: 300px 300px;
+  transition: transform 420ms ease;
+}
+
+.hand-line {
+  stroke: #1b1917;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.hand-pin {
+  fill: var(--red);
+  stroke: #f2d889;
+  stroke-width: 3;
+}
+
+.dial-center {
+  position: absolute;
+  inset: 40% 33%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #fff7e6;
+  pointer-events: none;
+}
+
+.dial-center span {
+  font-size: clamp(0.72rem, 1.8vw, 0.96rem);
+}
+
+.dial-center strong {
+  font-size: clamp(1rem, 2.7vw, 1.45rem);
+  line-height: 1.2;
+}
+
+.date-controls {
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.info-panel {
+  display: grid;
+  gap: 13px;
+  padding: clamp(15px, 2.2vw, 22px);
+}
+
+.status-card,
+.season-card,
+.next-grid,
+.detail-card {
+  border: 1px solid rgba(33, 27, 24, 0.1);
+  background: rgba(255, 251, 240, 0.63);
+  padding: 15px;
+}
+
+.season-card.accent {
+  border-left: 5px solid var(--blue);
+}
+
+.status-card strong,
+.next-grid strong {
+  display: block;
+  font-size: clamp(1rem, 2.4vw, 1.18rem);
+  line-height: 1.45;
+}
+
+.season-card h2,
+.detail-card h3 {
+  margin: 0 0 8px;
+  font-size: clamp(1.34rem, 3vw, 1.85rem);
+  line-height: 1.25;
+}
+
+.season-card p,
+.detail-card p {
+  line-height: 1.7;
+}
+
+.season-card p:last-child,
+.detail-card p:last-child {
+  margin-bottom: 0;
+}
+
+.next-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.range-note {
+  margin: 0;
+  color: var(--red);
+  line-height: 1.6;
+}
+
+body.out-of-range .dial {
+  opacity: 0.5;
+}
+
+@media (max-width: 900px) {
+  .top-panel,
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .top-panel {
+    display: grid;
+    align-items: start;
+  }
+
+  .top-actions {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    width: min(100% - 18px, 1180px);
+    padding-top: 12px;
+  }
+
+  .top-actions,
+  .segmented {
+    width: 100%;
+  }
+
+  .lang-button {
+    min-width: 0;
+  }
+
+  .action-button {
+    flex: 1;
+  }
+
+  .next-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dial-label {
+    font-size: 10px;
+  }
+
+  .dial-label.micro {
+    display: none;
+  }
+}
