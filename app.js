@@ -305,9 +305,7 @@ function drawDial() {
     });
     segment.addEventListener("click", () => selectItem("hour", hour));
     els.hourSegments.appendChild(segment);
-    const label = addLabel(hour.sign, start + 15, 115, "dial-label hour");
-    label.setAttribute("data-id", hour.id);
-    label.addEventListener("click", () => selectItem("hour", hour));
+    addHourLabel(hour, start + 15, 115);
   });
 }
 
@@ -317,6 +315,39 @@ function addLabel(text, angle, radius, className) {
   label.textContent = text;
   els.labels.appendChild(label);
   return label;
+}
+
+function addHourLabel(hour, angle, radius) {
+  const pos = polar(300, 300, radius, angle);
+  const group = svgEl("g", {
+    class: "hour-label-group",
+    "data-id": hour.id,
+    tabindex: "0",
+    role: "button",
+    "aria-label": `${hour.nameJa} ${hour.range}`
+  });
+  const background = svgEl("circle", {
+    cx: pos.x,
+    cy: pos.y,
+    r: 21,
+    class: "hour-label-bg"
+  });
+  const label = svgEl("text", {
+    x: pos.x,
+    y: pos.y + 0.5,
+    class: "dial-label hour"
+  });
+  label.textContent = hour.sign;
+  group.appendChild(background);
+  group.appendChild(label);
+  group.addEventListener("click", () => selectItem("hour", hour));
+  group.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      selectItem("hour", hour);
+    }
+  });
+  els.labels.appendChild(group);
 }
 
 function update() {
@@ -346,7 +377,7 @@ function update() {
   highlight(".term-segment", term.id);
   highlight(".micro-segment", micro.id);
   highlight(".hour-segment", zodiacHour.id);
-  highlight(".dial-label.hour", zodiacHour.id);
+  highlight(".hour-label-group", zodiacHour.id);
 
   const yearProgress = getYearProgress(viewedDate);
   els.hand.style.transform = `rotate(${yearProgress * 360}deg)`;
@@ -362,7 +393,7 @@ function setEmptyState() {
   highlight(".term-segment", "");
   highlight(".micro-segment", "");
   highlight(".hour-segment", "");
-  highlight(".dial-label.hour", "");
+  highlight(".hour-label-group", "");
 }
 
 function getContext(date) {
